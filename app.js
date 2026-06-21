@@ -1,3 +1,10 @@
+// =============================================================================
+//  Name: Radroach Races
+//  Author: Theeohn Megistus
+//  License: CC-BY-NC-4.0
+//  Repository: https://github.com/Theeohn/The-G.O.A.T.-3000a-
+// =============================================================================
+
 (function() {
   const Q = [
     ["A frenzied Vault scientist yells, \"I'm going to put my quantum harmonizer in your photonic resonation chamber!\" What's your response?",
@@ -48,64 +55,60 @@
   };
   let scores = {}, qi = -1, sel = 0, wrapCache;
 
-  function drawGoat(cy) {
+  function drawBorder() {
     h.setColor(3);
-    h.fillEllipse(190, cy + 25, 290, cy + 75);
-    h.fillEllipse(165, cy + 10, 199, cy + 40);
-    h.fillEllipse(280, cy + 10, 314, cy + 40);
-    h.setColor(0);
-    h.fillEllipse(175, cy + 17, 189, cy + 27);
-    h.fillEllipse(290, cy + 17, 304, cy + 27);
-    h.setColor(3);
-    h.fillCircle(240, cy, 38);
-    for (let i = 0; i < 8; i++) {
-      h.drawLine(212 + i, cy - 25, 204 + i, cy - 53);
-      h.drawLine(268 - i, cy - 25, 276 - i, cy - 53);
-    }
-    h.setColor(0);
-    h.fillCircle(222, cy - 7, 5);
-    h.fillCircle(258, cy - 7, 5);
-    h.fillEllipse(232, cy + 11, 248, cy + 21);
-    h.setColor(3);
-    h.drawLine(228, cy + 19, 240, cy + 25);
-    h.drawLine(252, cy + 19, 240, cy + 25);
-    h.setColor(0);
-    h.fillRect(165, cy + 69, 178, cy + 81);
-    h.fillRect(202, cy + 69, 215, cy + 81);
-    h.fillRect(265, cy + 69, 278, cy + 81);
-    h.fillRect(302, cy + 69, 315, cy + 81);
+    h.drawRect(18, 18, 461, 301);
+    h.drawRect(20, 20, 459, 299);
+    h.fillRect(180, 18, 300, 22);
+    h.fillRect(180, 297, 300, 301);
+    h.fillRect(18, 120, 22, 200);
+    h.fillRect(457, 120, 461, 200);
   }
 
   function drawTitle() {
     h.clear(0);
-    h.setColor(2).setFontMonofonto96().setFontAlign(0, 0).drawString("G.O.A.T.", 240, 100);
-    drawGoat(190);
-    h.setColor(3).setFontMonofonto18().setFontAlign(0, 0).drawString("Press left wheel to start!", 240, 290);
+    drawBorder();
+    h.setColor(3).setFontMonofonto23().setFontAlign(0, 0).drawString("The", 240, 56);
+    h.setColor(3).setFontMonofonto36().setFontAlign(0, 0).drawString("G.O.A.T.", 247, 94);
+    h.setColor(3).setFontMonofonto18().setFontAlign(0, 0);
+    h.drawString("Press the left wheel to begin your test!", 240, 160);
+    h.drawRect(45, 140, 435, 180);
+    h.setColor(3).setFontMonofonto23().setFontAlign(0, 0);
+    h.drawString("Generalized Occupational", 240, 225);
+    h.drawString("Aptitude Test", 240, 255);
     h.flip();
     Pip.lastFlip = getTime();
   }
 
   function wrap(i) {
     if (wrapCache && wrapCache.i === i) return wrapCache;
-    const q = h.setFontMonofonto16().wrapString(Q[i][0], 440);
-    const a = Q[i][1].map((t) => h.setFontMonofonto14().wrapString(t, 410));
+    const q = h.setFontMonofonto16().wrapString(Q[i][0], 410);
+    const a = Q[i][1].map((t) => h.setFontMonofonto14().wrapString(t, 390));
     wrapCache = { i: i, q: q, a: a };
     return wrapCache;
   }
 
   function drawQuestion() {
     h.clear(0);
+    drawBorder();
     const w = wrap(qi), c = w.q;
-    h.setColor(1).setFontMonofonto14().setFontAlign(-1, -1).drawString("QUESTION " + (qi + 1) + " OF 10", 14, 6);
+
+    // Draw Question Header box
+    h.setColor(0).fillRect(25, 25, 148, 50);
+    h.setColor(3).drawRect(25, 25, 148, 50);
+    h.setFontMonofonto14().setFontAlign(-1, -1).drawString("QUESTION " + (qi + 1) + " OF 10", 30, 32);
+
     h.setColor(3).setFontMonofonto16().setFontAlign(-1, -1);
-    let y = 26;
-    for (let i = 0; i < c.length; i++) { h.drawString(c[i], 14, y); y += 18; }
-    y += 8;
+    let y = 66;
+    // Draw Question text
+    for (let i = 0; i < c.length; i++) { h.drawString(c[i], 40, y); y += 18; }
+    y += 10;
+    // Draw Answers
     for (let i = 0; i < 4; i++) {
       const rows = w.a[i], rh = 15 * rows.length + 8;
-      if (i === sel) Pip.shadeBox(14, y, 466, y + rh);
-      h.setColor(i === sel ? 0 : 2).setFontMonofonto14().setFontAlign(-1, -1);
-      for (let r = 0; r < rows.length; r++) h.drawString(rows[r], 28, y + 4 + r * 15);
+      if (i === sel) Pip.shadeBox(40, y, 440, y + rh);
+      h.setColor(i === sel ? 3 : 2).setFontMonofonto14().setFontAlign(-1, -1);
+      for (let r = 0; r < rows.length; r++) h.drawString(rows[r], 50, y + 4 + r * 15);
       y += rh + 5;
     }
     h.flip();
@@ -118,13 +121,23 @@
     for (let k = 0; k < keys.length; k++) if (scores[keys[k]] > top) { top = scores[keys[k]]; best = keys[k]; }
     const job = R[best];
     h.clear(0);
-    h.setColor(1).setFontMonofonto28().setFontAlign(0, -1).drawString("G.O.A.T. RESULTS", 240, 30);
-    h.setColor(3).setFontMonofonto23().setFontAlign(0, -1).drawString(job[0], 240, 90);
+    drawBorder();
+    
+    // Calculate box for Job Title
+    const m = h.setFontMonofonto23().stringMetrics(job[0]);
+    const lx = 240 - (m.width / 2) - 10, rx = 240 + (m.width / 2) + 10;
+    
+    h.setColor(1).setFontMonofonto28().setFontAlign(0, -1).drawString("G.O.A.T. RESULTS", 240, 60);
+    
+    // Draw Border around Job Title
+    h.setColor(3).drawRect(lx, 100, rx, 140);
+    h.setColor(3).setFontMonofonto23().setFontAlign(0, -1).drawString(job[0], 240, 110);
+    
     const flav = h.setFontMonofonto16().wrapString(job[1], 400);
     h.setColor(2).setFontMonofonto16().setFontAlign(0, -1);
-    let y = 140;
+    let y = 160;
     for (let i = 0; i < flav.length; i++) { h.drawString(flav[i], 240, y); y += 20; }
-    h.setColor(1).setFontMonofonto14().setFontAlign(0, 1).drawString("Press left wheel to retake the test.", 240, 300);
+    h.setColor(3).setFontMonofonto14().setFontAlign(0, 1).drawString("Press left wheel to retake the test.", 240, 280);
     h.flip();
     Pip.lastFlip = getTime();
   }
