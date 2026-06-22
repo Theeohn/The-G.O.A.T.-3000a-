@@ -9,7 +9,7 @@
 - [YouTube Channel](https://www.youtube.com/@TheeohnM)
 - [GitHub](https://github.com/Theeohn)
 - [Pip-Boy](https://www.Pip-Boy.com)
-- [Pip-Boy Apps](https://github.com/CodyTolene/pip-boy-apps](https://github.com/CodyTolene/pip-boy-3000-holotapes)
+- [Pip-Boy Apps](https://github.com/CodyTolene/pip-boy-3000-holotapes)
 
 ### Description
 
